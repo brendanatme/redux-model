@@ -1,6 +1,6 @@
 {
   "name": "@brendanatme/redux-model",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Max your Redux, scrap your boilerplate",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
