@@ -15,12 +15,17 @@ $ npm install --save @brendanatme/redux-model
 import { ReduxModel } from '@brendanatme/redux-model';
 import * as api from '../my-api';
 
-const products = new ReduxModel('products');
+const productModel = new ReduxModel('products');
 
-products.addAction('FetchById', (id) => (dispatch) => {
-  dispatch(products.actions.BeginFetch());
-  const product = await api.get(`/products/${id}`);
-  dispatch(products.actions.FetchSuccess(undefined, products));
+productModel.addAction('FetchById', (id) => async (dispatch) => {
+  dispatch(productModel.actions.BeginFetch());
+
+  try {
+    const product = await api.get(`/products/${id}`);
+    dispatch(productModel.actions.FetchSuccess({ item: product }));
+  } catch (e) {
+    dispatch(productModel.actions.FetchFailure());
+  }
 });
 
 export default products;
@@ -28,7 +33,7 @@ export default products;
 ```
 
 ```javascript
-// your redux startup code
+// your redux store startup code
 import { createStore, createReducer } from 'redux';
 import productModel from '../my/model/above';
 
@@ -64,6 +69,6 @@ export default ({ id }) => {
   return (
     <code>{JSON.stringify(product)}</code>
   );
-}
+};
 
 ```
