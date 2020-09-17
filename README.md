@@ -1,3 +1,69 @@
 # redux-model
 
 Max your redux, scrap your boilerplate
+
+# Installing
+
+```bash
+$ npm install --save @brendanatme/redux-model
+```
+
+# Usage
+
+```javascript
+// your model code
+import { ReduxModel } from '@brendanatme/redux-model';
+import * as api from '../my-api';
+
+const products = new ReduxModel('products');
+
+products.addAction('FetchById', (id) => (dispatch) => {
+  dispatch(products.actions.BeginFetch());
+  const product = await api.get(`/products/${id}`);
+  dispatch(products.actions.FetchSuccess(undefined, products));
+});
+
+export default products;
+
+```
+
+```javascript
+// your redux startup code
+import { createStore, createReducer } from 'redux';
+import productModel from '../my/model/above';
+
+const createReducer({
+  [productModel.key]: productModel.reducer,
+});
+
+```
+
+```javascript
+// your React component code
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import productModel from '../my/model/above';
+
+export default ({ id }) => {
+  const dispatch = useDispatch();
+  const product = useSelector(productModel.selectors.item);
+  const network = useSelector(productModel.selectors.network);
+
+  useEffect(() => {
+    dispatch(productModel.actions.FetchById(id));
+  }, [product]);
+
+  if (network.fetching) {
+    return <Loader />;
+  }
+
+  if (network.failed) {
+    return <Error />;
+  }
+
+  return (
+    <code>{JSON.stringify(product)}</code>
+  );
+}
+
+```

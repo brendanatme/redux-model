@@ -1,23 +1,19 @@
 {
-  "name": "redux-model",
+  "name": "@brendanatme/redux-model",
   "version": "1.0.0",
-  "description": "Max your redux, scrap your boilerplate",
-  "main": "build/main/index.js",
-  "typings": "build/main/index.d.ts",
-  "module": "build/module/index.js",
+  "description": "Max your Redux, scrap your boilerplate",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "repository": "https://github.com/brendanatme/redux-model",
   "license": "MIT",
   "keywords": [],
   "scripts": {
     "build": "run-p build:*",
     "build:main": "tsc -p tsconfig.json",
-    "build:module": "tsc -p tsconfig.module.json",
     "fix": "run-s fix:*",
-    "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",
     "test": "run-s build test:*",
     "test:lint": "eslint src --ext .ts",
-    "test:prettier": "prettier \"src/**/*.ts\" --list-different",
     "test:spelling": "cspell \"{README.md,.github/*.md,src/**/*.ts}\"",
     "test:unit": "nyc --silent ava",
     "check-cli": "run-s test diff-integration-tests check-integration-tests",
@@ -30,18 +26,23 @@
     "cov:lcov": "nyc report --reporter=lcov",
     "cov:send": "run-s cov:lcov && codecov",
     "cov:check": "nyc report && nyc check-coverage --lines 100 --functions 100 --branches 100",
-    "doc": "run-s doc:html && open-cli build/docs/index.html",
-    "doc:html": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --out build/docs",
-    "doc:json": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --json build/docs/typedoc.json",
-    "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
-    "version": "standard-version",
+    "doc": "run-s doc:html && open-cli dist/docs/index.html",
+    "doc:html": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --out dist/docs",
+    "doc:json": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --json dist/docs/typedoc.json",
+    "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d dist/docs",
     "reset-hard": "git clean -dfx && git reset --hard && npm i",
-    "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish"
+    "prepare-release": "run-s reset-hard test cov:check doc:html doc:publish"
   },
   "engines": {
     "node": ">=10"
   },
-  "dependencies": {},
+  "dependencies": {
+    "reselect": "^4.0.0"
+  },
+  "peerDependencies": {
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
+  },
   "devDependencies": {
     "@ava/typescript": "^1.1.1",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
@@ -60,15 +61,12 @@
     "npm-run-all": "^4.1.5",
     "nyc": "^15.1.0",
     "open-cli": "^6.0.1",
-    "prettier": "^2.1.1",
-    "standard-version": "^9.0.0",
     "ts-node": "^9.0.0",
     "typedoc": "^0.19.0",
     "typescript": "^4.0.2"
   },
   "files": [
-    "build/main",
-    "build/module",
+    "dist",
     "!**/*.spec.*",
     "!**/*.json",
     "CHANGELOG.md",
@@ -80,20 +78,17 @@
     "timeout": "60s",
     "typescript": {
       "rewritePaths": {
-        "src/": "build/main/"
+        "src/": "dist/"
       }
     },
     "files": [
-      "!build/module/**"
+      "**/*.spec.ts"
     ]
   },
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
-  },
-  "prettier": {
-    "singleQuote": true
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
