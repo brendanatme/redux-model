@@ -7,19 +7,17 @@ const { execSync } = require('child_process');
 
 const bump = process.argv[2];
 
-console.log('Releasing...');
-
-console.log(`Cleaning dist folder...`);
-execSync(`rm -rf dist;`, err => console.error(err));
-
-console.log(`Compiling library...`);
-execSync(`npm run test`, err => console.error(err));
+console.log(`Preparing for release (this may take a while)...`);
+execSync(`npm run prepare-release;`, err => console.error(err));
 
 console.log(`Removing tests...`);
 execSync(`rm -rf dist/tests`, err => console.error(err));
 
 console.log(`Removing examples...`);
 execSync(`rm -rf dist/examples`, err => console.error(err));
+
+console.log(`Removing docs...`);
+execSync(`rm -rf dist/docs`, err => console.error(err));
 
 console.log(`Bumping version by: ${bump}...`);
 execSync(`npm version ${bump}`, err => console.error(err));

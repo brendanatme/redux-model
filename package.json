@@ -2,8 +2,8 @@
   "name": "@brendanatme/redux-model",
   "version": "0.0.0",
   "description": "Max your Redux, scrap your boilerplate",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "index.js",
+  "typings": "index.d.ts",
   "repository": "https://github.com/brendanatme/redux-model",
   "license": "MIT",
   "keywords": [],
@@ -31,7 +31,8 @@
     "doc:json": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --json dist/docs/typedoc.json",
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d dist/docs",
     "reset-hard": "git clean -dfx && git reset --hard && npm i",
-    "prepare-release": "run-s reset-hard test cov:check doc:html doc:publish"
+    "prepare-release": "run-s reset-hard test cov:check doc:html doc:publish",
+    "release": "node scripts/release.js"
   },
   "engines": {
     "node": ">=10"
@@ -61,6 +62,8 @@
     "npm-run-all": "^4.1.5",
     "nyc": "^15.1.0",
     "open-cli": "^6.0.1",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
     "ts-node": "^9.0.0",
     "typedoc": "^0.19.0",
     "typescript": "^4.0.2"
