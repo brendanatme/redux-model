@@ -68,38 +68,41 @@ export class ReduxModel<T> {
     this.actions = generateActions<T>(this.ActionTypes);
     this.selectors = generateSelectors<T>(this.key, this.itemIdProp);
 
-    if (!options) return;
+    this.itemIdProp = options && options.itemIdProp || this.itemIdProp;
 
-    if (options.itemIdProp) {
-      this.itemIdProp = options.itemIdProp;
+    if (options && options.reducers) {
+      this.initUserReducers(options.reducers);
     }
 
-    this.initUserReducers(options.reducers);
-    this.initUserItems(options.initialItems, options.initialItem);
+    if (options && (options.initialItem || options.initialItems)) {
+      this.initUserItems(options.initialItems, options.initialItem);
+    }
   }
 
-  private initUserReducers(reducers?: ReduxModelReducers<T>) {
-    if (!reducers) return;
-
-    this.reducers = reducers;
-    this.reducerKeys = Object.keys(this.reducers);
-    this.reducerKeys.map((k) => { (this.ActionTypes as any)[k] = `${this.key}/${k}`; });
+  private initUserReducers(reducers: ReduxModelReducers<T>) {
+    this.reducerKeys = Object.keys(reducers).map((k) => {
+      const publicKey = `${this.key}/${k}`;
+      this.reducers[publicKey] = reducers[k];
+      this.ActionTypes[k] = publicKey;
+      return publicKey;
+    });
   }
 
   private initUserItems(items?: T[], item?: T) {
-    if (item) this.initialState.item = item;
-    if (items) this.initialState.items = items;
+    this.initialState.item = item || this.initialState.item;
+    this.initialState.items = items || this.initialState.items;
   }
 
   addAction(key: string, actionCreator: ReduxModelActionCreator | ReduxModelThunk) {
-    (this.actions as any)[key] = actionCreator;
-    (this.ActionTypes as any)[key] = `${this.key}/${key}`;
+    this.actions[key] = actionCreator;
+    this.ActionTypes[key] = `${this.key}/${key}`;
   }
 
   reducer(state = this.initialState, action: ReduxModelAction) {
     for (let i = 0, len = this.reducerKeys.length; i < len; i++) {
-      if (this.reducerKeys[i] === action.type) {
-        return this.reducers[this.reducerKeys[i]](state, action);
+      const reducerKey = this.reducerKeys[i];
+      if (reducerKey === action.type) {
+        return this.reducers[reducerKey](state, action);
       }
     }
 
