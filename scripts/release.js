@@ -8,6 +8,11 @@ const { execSync } = require('child_process');
 const bump = process.argv[2];
 
 console.log(`Preparing for release (this may take a while)...`);
+
+if (!bump) {
+  throw new Error('release type missing: make sure you run `npm run release [major|minor|patch]`');
+}
+
 execSync(`npm run prepare-release;`, err => console.error(err));
 
 console.log(`Removing tests...`);
