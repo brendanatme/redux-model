@@ -3,7 +3,7 @@ export type ReduxModelAction = {
   readonly type: string;
 }
 
-export type ReduxModelThunk = (...args: any[]) => (dispatch: any, store?: any) => any;
+export type ReduxModelThunk = (...args: any[]) => (dispatch: any, store?: any) => Promise<any>;
 export type ReduxModelActionCreator = (...args: any[]) => ReduxModelAction;
 
 export type ReduxModelState<T> = {
