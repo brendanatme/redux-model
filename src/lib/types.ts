@@ -33,9 +33,9 @@ export interface ReduxModelActions<T> {
   ClearItems: () => ReduxModelAction;
   DeselectItem: () => ReduxModelAction;
   FetchFailure: () => ReduxModelAction;
-  FetchSuccess: (payload: { item?: T; items?: T[]; }) => ReduxModelAction;
+  FetchSuccess: (payload?: { item?: T; items?: T[]; }) => ReduxModelAction;
   SelectItem: (id: string) => ReduxModelAction;
-  Update: (payload: ReduxModelState<T>) => ReduxModelAction;
+  Update: (payload: Partial<ReduxModelState<T>>) => ReduxModelAction;
   [k: string]: ReduxModelActionCreator | ReduxModelThunk;
 }
 
