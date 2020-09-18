@@ -6,6 +6,7 @@
 const { execSync } = require('child_process');
 
 const bump = process.argv[2];
+const publishFolder = './dist/lib';
 
 console.log(`Preparing for release (this may take a while)...`);
 
@@ -19,16 +20,16 @@ console.log(`Bumping version by: ${bump}...`);
 execSync(`npm version ${bump}`, err => console.error(err));
 
 console.log('Copying package.json...');
-execSync(`cp package.json dist/lib/package.json`, err => console.error(err));
+execSync(`cp package.json ${publishFolder}/package.json`, err => console.error(err));
 
 console.log('Copying README.md...');
-execSync(`cp README.md dist/lib/README.md`, err => console.error(err));
+execSync(`cp README.md ${publishFolder}/README.md`, err => console.error(err));
 
 console.log('Copying .npmignore...');
-execSync(`cp .npmignore dist/lib/.npmignore`, err => console.error(err));
+execSync(`cp .npmignore ${publishFolder}/.npmignore`, err => console.error(err));
 
 console.log('Publishing to NPM...');
-execSync(`npm publish dist/lib --access=public`, err => console.error(err));
+execSync(`npm publish ${publishFolder} --access=public`, err => console.error(err));
 
 console.log('Pushing to Git...');
 execSync(`git push`, err => console.error(err));
