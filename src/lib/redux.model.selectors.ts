@@ -11,7 +11,7 @@ import { ReduxModelSelectors, ReduxModelState } from './types';
 
 export const generateSelectors = <T>(key: string, itemIdProp: string): ReduxModelSelectors<T> => {
   const getSlice = (state: any): ReduxModelState<T> => state[key];
-  const getNetwork = ({ failed, fetched, fetching }: ReduxModelState<T>) => ({ failed, fetched, fetching });
+  const getNetwork = (state: ReduxModelState<T>) => state.network;
   const getItem = (slice: ReduxModelState<T>): T => (slice as any).item;
   const getItems = (slice: ReduxModelState<T>): T[] => (slice as any).items;
   const getItemMap = (items: T[]) => {

@@ -7,11 +7,13 @@ export type ReduxModelThunk = (...args: any[]) => (dispatch: any, store?: any) =
 export type ReduxModelActionCreator = (...args: any[]) => ReduxModelAction;
 
 export type ReduxModelState<T> = {
-  failed: boolean;
-  fetched: boolean;
-  fetching: boolean;
-  item?: T;
-  items?: T[],
+  item?: Partial<T>;
+  items?: Partial<T>[],
+  network: {
+    failed: boolean;
+    fetched: boolean;
+    fetching: boolean;
+  };
   selectedId: string;
 }
 
@@ -20,8 +22,8 @@ export type ReduxModelReducers<T> = {
 }
 
 export type ReduxModelOptions<T> = {
-  readonly initialItem?: T;
-  readonly initialItems?: T[];
+  readonly initialItem?: Partial<T>;
+  readonly initialItems?: Partial<T>[];
   readonly itemIdProp?: string;
   readonly reducers?: ReduxModelReducers<T>;
 }
@@ -33,18 +35,18 @@ export interface ReduxModelActions<T> {
   ClearItems: () => ReduxModelAction;
   DeselectItem: () => ReduxModelAction;
   FetchFailure: () => ReduxModelAction;
-  FetchSuccess: (payload?: { item?: T; items?: T[]; }) => ReduxModelAction;
+  FetchSuccess: (payload?: { item?: Partial<T>; items?: Partial<T>[]; }) => ReduxModelAction;
   SelectItem: (id: string) => ReduxModelAction;
   Update: (payload: Partial<ReduxModelState<T>>) => ReduxModelAction;
   [k: string]: ReduxModelActionCreator | ReduxModelThunk;
 }
 
 export interface ReduxModelSelectors<T> {
-  item: (state: any) => T;
-  items: (state: any) => T[];
-  itemMap: (state: any) => { [k: string]: T; };
+  item: (state: any) => Partial<T>;
+  items: (state: any) => Partial<T>[];
+  itemMap: (state: any) => { [k: string]: Partial<T>; };
   network: (state: any) => { failed: boolean; fetched: boolean; fetching: boolean; };
-  selectedItem: (state: any) => T | undefined;
+  selectedItem: (state: any) => Partial<T> | undefined;
   state: (state: any) => ReduxModelState<T>;
 }
 
@@ -59,4 +61,12 @@ export interface ReduxModelActionTypes {
   SelectItem: string;
   Update: string;
   [k: string]: string;
+}
+
+export type GenericComponent = (props: any) => any;
+
+export interface ReduxModelConnectors {
+  withActions: (Composed: GenericComponent) => { WrappedComponent: GenericComponent };
+  withAll: (Composed: GenericComponent) => { WrappedComponent: GenericComponent };
+  withState: (Composed: GenericComponent) => { WrappedComponent: GenericComponent };
 }

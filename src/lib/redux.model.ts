@@ -30,12 +30,14 @@
  * - async action creators
  */
 import { generateActions, generateActionTypes } from './redux.model.actions';
+import { generateConnectors } from './redux.model.connectors';
 import { generateSelectors } from './redux.model.selectors';
 import {
   ReduxModelAction,
   ReduxModelActionCreator,
   ReduxModelActions,
   ReduxModelActionTypes,
+  ReduxModelConnectors,
   ReduxModelOptions,
   ReduxModelReducers,
   ReduxModelSelectors,
@@ -49,10 +51,14 @@ export class ReduxModel<T> {
 
   actions: ReduxModelActions<T>;
   ActionTypes: ReduxModelActionTypes;
+  connectors: ReduxModelConnectors;
   initialState: ReduxModelState<T> = {
-    failed: false,
-    fetched: false,
-    fetching: false,
+    network: {
+      failed: false,
+      fetched: false,
+      fetching: false,
+    },
+    item: {},
     items: [],
     selectedId: '',
   };
@@ -67,6 +73,7 @@ export class ReduxModel<T> {
     this.ActionTypes = generateActionTypes(this.key);
     this.actions = generateActions<T>(this.ActionTypes);
     this.selectors = generateSelectors<T>(this.key, this.itemIdProp);
+    this.connectors = generateConnectors<T>(this.key, this.actions, this.selectors);
 
     this.itemIdProp = options && options.itemIdProp || this.itemIdProp;
 
@@ -88,7 +95,7 @@ export class ReduxModel<T> {
     });
   }
 
-  private initUserItems(items?: T[], item?: T) {
+  private initUserItems(items?: Partial<T>[], item?: Partial<T>) {
     this.initialState.item = item || this.initialState.item;
     this.initialState.items = items || this.initialState.items;
   }
@@ -98,7 +105,7 @@ export class ReduxModel<T> {
     this.ActionTypes[key] = `${this.key}/${key}`;
   }
 
-  reducer(state = this.initialState, action: ReduxModelAction) {
+  reducer(state = this.initialState, action: ReduxModelAction): ReduxModelState<T> {
     for (let i = 0, len = this.reducerKeys.length; i < len; i++) {
       const reducerKey = this.reducerKeys[i];
       if (reducerKey === action.type) {
@@ -110,18 +117,22 @@ export class ReduxModel<T> {
       case this.ActionTypes.BeginFetch: {
         return {
           ...state,
-          failed: false,
-          fetched: false,
-          fetching: true,
+          network: {
+            failed: false,
+            fetched: false,
+            fetching: true,
+          },
         };
       }
       case this.ActionTypes.Clear: {
         return {
-          failed: false,
-          fetched: false,
-          fetching: false,
           item: {},
           items: [],
+          network: {
+            failed: false,
+            fetched: false,
+            fetching: false,
+          },
           selectedId: '',
         };
       }
@@ -146,9 +157,11 @@ export class ReduxModel<T> {
       case this.ActionTypes.FetchFailure: {
         return {
           ...state,
-          failed: true,
-          fetched: false,
-          fetching: false,
+          network: {
+            failed: true,
+            fetched: false,
+            fetching: false,
+          },
         };
       }
       case this.ActionTypes.FetchSuccess: {
@@ -159,9 +172,11 @@ export class ReduxModel<T> {
             ...action.payload.item,
           },
           items: action.payload.items || state.items,
-          failed: false,
-          fetched: true,
-          fetching: false,
+          network: {
+            failed: false,
+            fetched: true,
+            fetching: false,
+          },
         };
       }
       case this.ActionTypes.SelectItem: {

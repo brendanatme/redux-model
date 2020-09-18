@@ -10,11 +10,13 @@ const ITEMS: { id: string; }[] = [
   { [ID]: '2' },
 ];
 const SLICE = {
-  failed: false,
-  fetched: false,
-  fetching: false,
   item: ITEM,
   items: ITEMS,
+  network: {
+    failed: false,
+    fetched: false,
+    fetching: false,
+  },
   selectedId: '',
 };
 const MAPPED = {
@@ -23,7 +25,7 @@ const MAPPED = {
 };
 
 const setup = () => ({
-  selectors: generateSelectors(KEY, ID),
+  selectors: generateSelectors<{ id: string; }>(KEY, ID),
   state: {
     [KEY]: SLICE,
   },

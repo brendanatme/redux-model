@@ -34,6 +34,11 @@ test('exposes selectors', (t) => {
   t.truthy(model.selectors);
 });
 
+test('exposes connectors', (t) => {
+  const model = setup();
+  t.truthy(model.connectors);
+});
+
 test('exposes reducer', (t) => {
   const model = setup();
   t.truthy(model.reducer);
@@ -42,7 +47,7 @@ test('exposes reducer', (t) => {
 test('reducer handles BeginFetch', (t) => {
   const model = setup();
   const state1 = { ...model.initialState };
-  const state2 = { ...model.initialState, fetching: true };
+  const state2 = { ...model.initialState, network: { ...model.initialState.network, fetching: true } };
   t.deepEqual(model.reducer(state1, model.actions.BeginFetch()), state2);
 });
 
@@ -76,15 +81,15 @@ test('reducer handles DeselectItem', (t) => {
 
 test('reducer handles FetchFailure', (t) => {
   const model = setup();
-  const state1 = { ...model.initialState, fetching: true, failed: false };
-  const state2 = { ...model.initialState, fetching: false, failed: true };
+  const state1 = { ...model.initialState, network: { ...model.initialState.network, fetching: true, failed: false } };
+  const state2 = { ...model.initialState, network: { ...model.initialState.network, fetching: false, failed: true } };
   t.deepEqual(model.reducer(state1, model.actions.FetchFailure()), state2);
 });
 
 test('reducer handles FetchSuccess', (t) => {
   const model = setup();
-  const state1 = { ...model.initialState, fetching: true, fetched: false };
-  const state2 = { ...model.initialState, fetching: false, fetched: true, item: { foo: 'bar' } };
+  const state1 = { ...model.initialState, network: { ...model.initialState.network, fetching: true, fetched: false } };
+  const state2 = { ...model.initialState, network: { ...model.initialState.network, fetching: false, fetched: true }, item: { foo: 'bar' } };
   t.deepEqual(model.reducer(state1, model.actions.FetchSuccess({ item: { foo: 'bar' } })), state2);
 });
 

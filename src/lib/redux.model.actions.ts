@@ -28,7 +28,7 @@ export const generateActions = <T>(actionTypes: ReduxModelActionTypes): ReduxMod
   ClearItems: () => ({ type: actionTypes.ClearItems }),
   DeselectItem: () => ({ type: actionTypes.DeselectItem }),
   FetchFailure: () => ({ type: actionTypes.FetchFailure }),
-  FetchSuccess: (payload?: { item?: T; items?: T[]; }) => ({
+  FetchSuccess: (payload?: { item?: Partial<T>; items?: Partial<T>[]; }) => ({
     payload,
     type: actionTypes.FetchSuccess,
   }),
