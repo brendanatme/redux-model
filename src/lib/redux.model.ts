@@ -105,7 +105,7 @@ export class ReduxModel<T> {
     this.ActionTypes[key] = `${this.key}/${key}`;
   }
 
-  reducer(state = this.initialState, action: ReduxModelAction): ReduxModelState<T> {
+  reducer = (state = this.initialState, action: ReduxModelAction): ReduxModelState<T> => {
     for (let i = 0, len = this.reducerKeys.length; i < len; i++) {
       const reducerKey = this.reducerKeys[i];
       if (reducerKey === action.type) {
@@ -200,5 +200,5 @@ export class ReduxModel<T> {
         return state;
       }
     }
-  }
+  };
 }
