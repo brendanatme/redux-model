@@ -12,7 +12,7 @@ const setup = () => {
     actions,
     ActionTypes,
   };
-}
+};
 
 const actionTypeTests = [
   'BeginFetch',
