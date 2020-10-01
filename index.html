@@ -85,8 +85,8 @@ productModel.addAction(<span class="hljs-string">&#x27;FetchById&#x27;</span>, <
   dispatch(productModel.actions.BeginFetch());
 
   <span class="hljs-keyword">try</span> {
-    <span class="hljs-keyword">const</span> product = <span class="hljs-keyword">await</span> api.get(<span class="hljs-string">`/products/<span class="hljs-subst">${id}</span>`</span>);
-    dispatch(productModel.actions.FetchSuccess({ <span class="hljs-attr">item</span>: product }));
+    <span class="hljs-keyword">const</span> item = <span class="hljs-keyword">await</span> api.get(<span class="hljs-string">`/products/<span class="hljs-subst">${id}</span>`</span>);
+    dispatch(productModel.actions.FetchSuccess({ item }));
   } <span class="hljs-keyword">catch</span> (e) {
     dispatch(productModel.actions.FetchFailure());
   }
@@ -95,10 +95,10 @@ productModel.addAction(<span class="hljs-string">&#x27;FetchById&#x27;</span>, <
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> products;
 </code></pre>
 				<pre><code class="language-javascript"><span class="hljs-comment">// your redux store startup code</span>
-<span class="hljs-keyword">import</span> { createStore, createReducer } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;redux&#x27;</span>;
+<span class="hljs-keyword">import</span> { configureStore } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@brendanatme/redux-model&#x27;</span>;
 <span class="hljs-keyword">import</span> productModel <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../my/model/above&#x27;</span>;
 
-<span class="hljs-keyword">const</span> createReducer({
+<span class="hljs-keyword">const</span> initStore = configureStore({
   [productModel.key]: productModel.reducer,
 });
 </code></pre>
@@ -160,16 +160,13 @@ productModel.addAction(<span class="hljs-string">&#x27;FetchById&#x27;</span>, <
 						<a href="interfaces/stub.html" class="tsd-kind-icon">Stub</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#genericcomponent" class="tsd-kind-icon">Generic<wbr>Component</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#product" class="tsd-kind-icon">Product</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#reduxmodelaction" class="tsd-kind-icon">Redux<wbr>Model<wbr>Action</a>
+						<a href="globals.html#reduxmodelactioncreator" class="tsd-kind-icon">Redux<wbr>Model<wbr>Action<wbr>Creator</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#reduxmodelactioncreator" class="tsd-kind-icon">Redux<wbr>Model<wbr>Action<wbr>Creator</a>
+						<a href="globals.html#reduxmodelcomponent" class="tsd-kind-icon">Redux<wbr>Model<wbr>Component</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="globals.html#reduxmodeloptions" class="tsd-kind-icon">Redux<wbr>Model<wbr>Options</a>
@@ -180,11 +177,17 @@ productModel.addAction(<span class="hljs-string">&#x27;FetchById&#x27;</span>, <
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="globals.html#reduxmodelstate" class="tsd-kind-icon">Redux<wbr>Model<wbr>State</a>
 					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#reduxmodelstorecreator" class="tsd-kind-icon">Redux<wbr>Model<wbr>Store<wbr>Creator</a>
+					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#reduxmodelthunk" class="tsd-kind-icon">Redux<wbr>Model<wbr>Thunk</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#productmodel" class="tsd-kind-icon">product<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#configurestore" class="tsd-kind-icon">configure<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#generateactiontypes" class="tsd-kind-icon">generate<wbr>Action<wbr>Types</a>
