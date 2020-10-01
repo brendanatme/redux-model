@@ -1,8 +1,9 @@
 import test from 'ava';
+import { AnyAction } from 'redux';
 
-import { ReduxModel, ReduxModelAction } from '../lib';
+import { ReduxModel } from '../lib';
 
-const DoNothing = (state: any, action?: ReduxModelAction) => ({ ...state, item: action });
+const DoNothing = (state: any, action?: AnyAction) => ({ ...state, item: action });
 const DoSomething = () => async () => true;
 const itemIdProp = '_id';
 
