@@ -1,8 +1,7 @@
 /**
  * redux.model.selectors
  *
- * contains helper method
- * for generating selectors
+ * generate selectors
  * for use in model
  */
 import { createSelector } from 'reselect';

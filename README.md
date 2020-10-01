@@ -21,8 +21,8 @@ productModel.addAction('FetchById', (id) => async (dispatch) => {
   dispatch(productModel.actions.BeginFetch());
 
   try {
-    const product = await api.get(`/products/${id}`);
-    dispatch(productModel.actions.FetchSuccess({ item: product }));
+    const item = await api.get(`/products/${id}`);
+    dispatch(productModel.actions.FetchSuccess({ item }));
   } catch (e) {
     dispatch(productModel.actions.FetchFailure());
   }
@@ -34,10 +34,10 @@ export default products;
 
 ```javascript
 // your redux store startup code
-import { createStore, createReducer } from 'redux';
+import { configureStore } from '@brendanatme/redux-model';
 import productModel from '../my/model/above';
 
-const createReducer({
+const initStore = configureStore({
   [productModel.key]: productModel.reducer,
 });
 

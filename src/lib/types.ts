@@ -1,10 +1,7 @@
-export type ReduxModelAction = {
-  readonly payload?: any;
-  readonly type: string;
-}
+import { Action, AnyAction, PreloadedState, Store } from 'redux';
 
-export type ReduxModelThunk = (...args: any[]) => (dispatch: any, store?: any) => Promise<any>;
-export type ReduxModelActionCreator = (...args: any[]) => ReduxModelAction;
+export type ReduxModelThunk = <S, A extends Action = AnyAction>(...args: any[]) => (dispatch: any, store?: Store<S, A>) => Promise<any>;
+export type ReduxModelActionCreator = (...args: any[]) => AnyAction;
 
 export type ReduxModelState<T> = {
   item?: Partial<T>;
@@ -18,7 +15,7 @@ export type ReduxModelState<T> = {
 }
 
 export type ReduxModelReducers<T> = {
-  [k: string]: (state: ReduxModelState<T>, action?: ReduxModelAction) => ReduxModelState<T>;
+  [k: string]: (state: ReduxModelState<T>, action?: AnyAction) => ReduxModelState<T>;
 }
 
 export type ReduxModelOptions<T> = {
@@ -29,15 +26,15 @@ export type ReduxModelOptions<T> = {
 }
 
 export interface ReduxModelActions<T> {
-  BeginFetch: () => ReduxModelAction;
-  Clear: () => ReduxModelAction;
-  ClearItem: () => ReduxModelAction;
-  ClearItems: () => ReduxModelAction;
-  DeselectItem: () => ReduxModelAction;
-  FetchFailure: () => ReduxModelAction;
-  FetchSuccess: (payload?: { item?: Partial<T>; items?: Partial<T>[]; }) => ReduxModelAction;
-  SelectItem: (id: string) => ReduxModelAction;
-  Update: (payload: Partial<ReduxModelState<T>>) => ReduxModelAction;
+  BeginFetch: () => AnyAction;
+  Clear: () => AnyAction;
+  ClearItem: () => AnyAction;
+  ClearItems: () => AnyAction;
+  DeselectItem: () => AnyAction;
+  FetchFailure: () => AnyAction;
+  FetchSuccess: (payload?: { item?: Partial<T>; items?: Partial<T>[]; }) => AnyAction;
+  SelectItem: (id: string) => AnyAction;
+  Update: (payload: Partial<ReduxModelState<T>>) => AnyAction;
   [k: string]: ReduxModelActionCreator | ReduxModelThunk;
 }
 
@@ -63,10 +60,13 @@ export interface ReduxModelActionTypes {
   [k: string]: string;
 }
 
-export type GenericComponent = (props: any) => any;
+// @todo properly type
+export type ReduxModelComponent = (props: any) => any;
 
 export interface ReduxModelConnectors {
-  withActions: (Composed: GenericComponent) => { WrappedComponent: GenericComponent };
-  withAll: (Composed: GenericComponent) => { WrappedComponent: GenericComponent };
-  withState: (Composed: GenericComponent) => { WrappedComponent: GenericComponent };
+  withActions: (Composed: ReduxModelComponent) => { WrappedComponent: ReduxModelComponent };
+  withAll: (Composed: ReduxModelComponent) => { WrappedComponent: ReduxModelComponent };
+  withState: (Composed: ReduxModelComponent) => { WrappedComponent: ReduxModelComponent };
 }
+
+export type ReduxModelStoreCreator<S, A extends Action = AnyAction> = (initialState?: PreloadedState<S>) => Store<S, A>;

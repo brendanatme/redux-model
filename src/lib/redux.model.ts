@@ -33,7 +33,6 @@ import { generateActions, generateActionTypes } from './redux.model.actions';
 import { generateConnectors } from './redux.model.connectors';
 import { generateSelectors } from './redux.model.selectors';
 import {
-  ReduxModelAction,
   ReduxModelActionCreator,
   ReduxModelActions,
   ReduxModelActionTypes,
