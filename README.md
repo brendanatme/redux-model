@@ -28,7 +28,7 @@ productModel.addAction('FetchById', (id) => async (dispatch) => {
   }
 });
 
-export default products;
+export default productModel;
 
 ```
 
@@ -37,9 +37,16 @@ export default products;
 import { configureStore } from '@brendanatme/redux-model';
 import productModel from '../my/model/above';
 
-const initStore = configureStore({
-  [productModel.key]: productModel.reducer,
-});
+const initStore = configureStore(
+  {
+    [productModel.key]: productModel.reducer,
+  },
+  // {}, // (optional) initial state
+  // [], // (optional) redux middlewares
+);
+
+// call this function to intialize your store
+export default initStore;
 
 ```
 
