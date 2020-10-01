@@ -10,7 +10,7 @@ import { Product } from './stub';
 
 const productModel = new ReduxModel<Product>('products');
 
-productModel.addAction('FetchAll', () => async (dispatch) => {
+productModel.addAction('FetchAll', () => async (dispatch: any) => {
   dispatch(productModel.actions.BeginFetch());
 
   try {
@@ -23,7 +23,7 @@ productModel.addAction('FetchAll', () => async (dispatch) => {
 
 // productModel.actions.FetchAll()
 
-productModel.addAction('FetchOne', (id: string) => async (dispatch) => {
+productModel.addAction('FetchOne', (id: string) => async (dispatch: any) => {
   dispatch(productModel.actions.BeginFetch());
 
   try {

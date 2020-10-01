@@ -29,6 +29,8 @@
  * - reducer methods
  * - async action creators
  */
+import { AnyAction } from 'redux';
+
 import { generateActions, generateActionTypes } from './redux.model.actions';
 import { generateConnectors } from './redux.model.connectors';
 import { generateSelectors } from './redux.model.selectors';
@@ -104,7 +106,7 @@ export class ReduxModel<T> {
     this.ActionTypes[key] = `${this.key}/${key}`;
   }
 
-  reducer = (state = this.initialState, action: ReduxModelAction): ReduxModelState<T> => {
+  reducer = (state = this.initialState, action: AnyAction): ReduxModelState<T> => {
     for (let i = 0, len = this.reducerKeys.length; i < len; i++) {
       const reducerKey = this.reducerKeys[i];
       if (reducerKey === action.type) {
