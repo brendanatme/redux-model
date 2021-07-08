@@ -7,6 +7,7 @@
 	<meta name="description" content="Documentation for @brendanatme/redux-model">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -40,8 +41,6 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -51,11 +50,6 @@
 	</div>
 	<div class="tsd-page-title">
 		<div class="container">
-			<ul class="tsd-breadcrumb">
-				<li>
-					<a href="globals.html">Globals</a>
-				</li>
-			</ul>
 			<h1>@brendanatme/redux-model</h1>
 		</div>
 	</div>
@@ -65,151 +59,272 @@
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
 				<a href="#redux-model" id="redux-model" style="color: inherit; text-decoration: none;">
-					<h1>redux-model</h1>
+					<h1>Redux-model</h1>
 				</a>
 				<p>Max your redux, scrap your boilerplate</p>
+				<p>Redux-model is an opinionated layer built on top of Redux designed to cut out your boilerplate, encourage structure and best practices, and give powerful features from line zero. Throw out all those folders and files full of action types, action creators, selectors, effects, and reducers... and create simple models that do what you always want them to by default, while retaining all the flexibility of redux.</p>
 				<a href="#installing" id="installing" style="color: inherit; text-decoration: none;">
-					<h1>Installing</h1>
+					<h2>Installing</h2>
 				</a>
-				<pre><code class="language-bash">$ npm install --save @brendanatme/redux-model</code></pre>
+				<pre><code class="language-bash"><span style="color: #000000">$ npm install --save @brendanatme/redux-model</span>
+</code></pre>
 				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
-					<h1>Usage</h1>
+					<h2>Usage</h2>
 				</a>
-				<pre><code class="language-javascript"><span class="hljs-comment">// your model code</span>
-<span class="hljs-keyword">import</span> { ReduxModel } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@brendanatme/redux-model&#x27;</span>;
-<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> api <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../my-api&#x27;</span>;
+				<pre><code class="language-javascript"><span style="color: #008000">// your model code</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">ReduxModel</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@brendanatme/redux-model&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #0000FF">*</span><span style="color: #000000"> </span><span style="color: #AF00DB">as</span><span style="color: #000000"> </span><span style="color: #001080">api</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;../my-api&quot;</span><span style="color: #000000">;</span>
 
-<span class="hljs-keyword">const</span> productModel = <span class="hljs-keyword">new</span> ReduxModel(<span class="hljs-string">&#x27;products&#x27;</span>);
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">productModel</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">ReduxModel</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;products&quot;</span><span style="color: #000000">);</span>
 
-productModel.addAction(<span class="hljs-string">&#x27;FetchById&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">id</span>) =&gt;</span> <span class="hljs-keyword">async</span> (dispatch) =&gt; {
-  dispatch(productModel.actions.BeginFetch());
+<span style="color: #008000">// define action creators as thunks or simple action creators</span>
+<span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #795E26">addAction</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;FetchById&quot;</span><span style="color: #000000">, (</span><span style="color: #001080">id</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #0000FF">async</span><span style="color: #000000"> (</span><span style="color: #001080">dispatch</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #008000">// leverage pre-existing built-in action creators</span>
+<span style="color: #000000">  </span><span style="color: #795E26">dispatch</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">actions</span><span style="color: #000000">.</span><span style="color: #795E26">BeginFetch</span><span style="color: #000000">());</span>
 
-  <span class="hljs-keyword">try</span> {
-    <span class="hljs-keyword">const</span> item = <span class="hljs-keyword">await</span> api.get(<span class="hljs-string">`/products/<span class="hljs-subst">${id}</span>`</span>);
-    dispatch(productModel.actions.FetchSuccess({ item }));
-  } <span class="hljs-keyword">catch</span> (e) {
-    dispatch(productModel.actions.FetchFailure());
-  }
-});
+<span style="color: #000000">  </span><span style="color: #AF00DB">try</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">item</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">api</span><span style="color: #000000">.</span><span style="color: #795E26">get</span><span style="color: #000000">(</span><span style="color: #A31515">`/products/</span><span style="color: #0000FF">${</span><span style="color: #001080">id</span><span style="color: #0000FF">}</span><span style="color: #A31515">`</span><span style="color: #000000">);</span>
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> products;
+<span style="color: #000000">    </span><span style="color: #008000">// follow data-shape conventions to make your life easier,</span>
+<span style="color: #000000">    </span><span style="color: #008000">// and your code more consistent and readable</span>
+<span style="color: #000000">    </span><span style="color: #795E26">dispatch</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">actions</span><span style="color: #000000">.</span><span style="color: #795E26">FetchSuccess</span><span style="color: #000000">({ </span><span style="color: #001080">item</span><span style="color: #000000"> }));</span>
+<span style="color: #000000">  } </span><span style="color: #AF00DB">catch</span><span style="color: #000000"> (</span><span style="color: #001080">e</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// redux-model gives you the tools that make following best-practices,</span>
+<span style="color: #000000">    </span><span style="color: #008000">// like proper network status handling,</span>
+<span style="color: #000000">    </span><span style="color: #008000">// quite trivial</span>
+<span style="color: #000000">    </span><span style="color: #795E26">dispatch</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">actions</span><span style="color: #000000">.</span><span style="color: #795E26">FetchFailure</span><span style="color: #000000">());</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #AF00DB">export</span><span style="color: #000000"> </span><span style="color: #AF00DB">default</span><span style="color: #000000"> </span><span style="color: #001080">productModel</span><span style="color: #000000">;</span>
 </code></pre>
-				<pre><code class="language-javascript"><span class="hljs-comment">// your redux store startup code</span>
-<span class="hljs-keyword">import</span> { configureStore } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@brendanatme/redux-model&#x27;</span>;
-<span class="hljs-keyword">import</span> productModel <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../my/model/above&#x27;</span>;
+				<pre><code class="language-javascript"><span style="color: #008000">// your redux store startup code</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">configureStore</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@brendanatme/redux-model&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">productModel</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;../my/model/above&quot;</span><span style="color: #000000">;</span>
 
-<span class="hljs-keyword">const</span> initStore = configureStore({
-  [productModel.key]: productModel.reducer,
-});
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">initStore</span><span style="color: #000000"> = </span><span style="color: #795E26">configureStore</span><span style="color: #000000">(</span>
+<span style="color: #000000">  {</span>
+<span style="color: #000000">    </span><span style="color: #001080">[productModel.key]:</span><span style="color: #000000"> </span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">reducer</span><span style="color: #000000">,</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">  </span><span style="color: #008000">// {}, // (optional) initial state</span>
+<span style="color: #000000">  </span><span style="color: #008000">// [], // (optional) redux middlewares</span>
+<span style="color: #000000">);</span>
+
+<span style="color: #008000">// call this function to initialize your store</span>
+<span style="color: #AF00DB">export</span><span style="color: #000000"> </span><span style="color: #AF00DB">default</span><span style="color: #000000"> </span><span style="color: #001080">initStore</span><span style="color: #000000">;</span>
 </code></pre>
-				<pre><code class="language-javascript"><span class="hljs-comment">// your React component code</span>
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>;
-<span class="hljs-keyword">import</span> { useDispatch, useSelector } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-redux&#x27;</span>;
-<span class="hljs-keyword">import</span> productModel <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../my/model/above&#x27;</span>;
+				<pre><code class="language-javascript"><span style="color: #008000">// your React component code</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">React</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;react&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">useDispatch</span><span style="color: #000000">, </span><span style="color: #001080">useSelector</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;react-redux&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">productModel</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;../my/model/above&quot;</span><span style="color: #000000">;</span>
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> ({ id }) =&gt; {
-  <span class="hljs-keyword">const</span> dispatch = useDispatch();
-  <span class="hljs-keyword">const</span> product = useSelector(productModel.selectors.item);
-  <span class="hljs-keyword">const</span> network = useSelector(productModel.selectors.network);
+<span style="color: #AF00DB">export</span><span style="color: #000000"> </span><span style="color: #AF00DB">default</span><span style="color: #000000"> ({ </span><span style="color: #001080">id</span><span style="color: #000000"> }) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">dispatch</span><span style="color: #000000"> = </span><span style="color: #795E26">useDispatch</span><span style="color: #000000">();</span>
 
-  useEffect(<span class="hljs-function">() =&gt;</span> {
-    dispatch(productModel.actions.FetchById(id));
-  }, [product]);
+<span style="color: #000000">  </span><span style="color: #008000">// use built-in selectors to access data consistently</span>
+<span style="color: #000000">  </span><span style="color: #008000">// without needing to write or repeat procedural code</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">product</span><span style="color: #000000"> = </span><span style="color: #795E26">useSelector</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">selectors</span><span style="color: #000000">.</span><span style="color: #001080">item</span><span style="color: #000000">);</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">network</span><span style="color: #000000"> = </span><span style="color: #795E26">useSelector</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">selectors</span><span style="color: #000000">.</span><span style="color: #001080">network</span><span style="color: #000000">);</span>
 
-  <span class="hljs-keyword">if</span> (network.fetching) {
-    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Loader</span> /&gt;</span></span>;
-  }
+<span style="color: #000000">  </span><span style="color: #795E26">useEffect</span><span style="color: #000000">(() </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #795E26">dispatch</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">actions</span><span style="color: #000000">.</span><span style="color: #795E26">FetchById</span><span style="color: #000000">(</span><span style="color: #001080">id</span><span style="color: #000000">));</span>
+<span style="color: #000000">  }, [</span><span style="color: #001080">product</span><span style="color: #000000">]);</span>
 
-  <span class="hljs-keyword">if</span> (network.failed) {
-    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Error</span> /&gt;</span></span>;
-  }
+<span style="color: #000000">  </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #001080">fetching</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #800000">&lt;</span><span style="color: #267F99">Loader</span><span style="color: #000000"> </span><span style="color: #800000">/&gt;</span><span style="color: #000000">;</span>
+<span style="color: #000000">  }</span>
 
-  <span class="hljs-keyword">return</span> (
-    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">code</span>&gt;</span>{JSON.stringify(product)}<span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span></span>
-  );
-};
+<span style="color: #000000">  </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #001080">failed</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #800000">&lt;</span><span style="color: #267F99">Error</span><span style="color: #000000"> </span><span style="color: #800000">/&gt;</span><span style="color: #000000">;</span>
+<span style="color: #000000">  }</span>
+
+<span style="color: #000000">  </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #800000">&lt;code&gt;</span><span style="color: #0000FF">{</span><span style="color: #267F99">JSON</span><span style="color: #000000FF">.</span><span style="color: #795E26">stringify</span><span style="color: #000000FF">(</span><span style="color: #001080">product</span><span style="color: #000000FF">)</span><span style="color: #0000FF">}</span><span style="color: #800000">&lt;/code&gt;</span><span style="color: #000000">;</span>
+<span style="color: #000000">};</span>
+</code></pre>
+				<a href="#docs" id="docs" style="color: inherit; text-decoration: none;">
+					<h2>Docs</h2>
+				</a>
+				<a href="#model-based-approach" id="model-based-approach" style="color: inherit; text-decoration: none;">
+					<h3>Model-based approach</h3>
+				</a>
+				<p>Models contain a key, a reducer, action types, action creators, selectors, and connectors. To instantiate a model, you only need to provide the key:</p>
+				<pre><code class="language-javascript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">ReduxModel</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@brendanatme/redux-model&quot;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">productModel</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">ReduxModel</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;products&quot;</span><span style="color: #000000">);</span>
+</code></pre>
+				<p>You can optionally add your own reducers:</p>
+				<pre><code class="language-javascript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">ReduxModel</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@brendanatme/redux-model&quot;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">productModel</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">ReduxModel</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;products&quot;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">  </span><span style="color: #001080">reducers:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #795E26">Foo</span><span style="color: #001080">:</span><span style="color: #000000"> (</span><span style="color: #001080">state</span><span style="color: #000000">, </span><span style="color: #001080">action</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> ({ ...</span><span style="color: #001080">state</span><span style="color: #000000">, ...</span><span style="color: #001080">action</span><span style="color: #000000">.</span><span style="color: #001080">payload</span><span style="color: #000000"> }),</span>
+<span style="color: #000000">  },</span>
+<span style="color: #000000">});</span>
+</code></pre>
+				<p>You can access action types associated with your created reducers:</p>
+				<pre><code class="language-javascript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">ReduxModel</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@brendanatme/redux-model&quot;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">productModel</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">ReduxModel</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;products&quot;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">  </span><span style="color: #001080">reducers:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #795E26">Foo</span><span style="color: #001080">:</span><span style="color: #000000"> (</span><span style="color: #001080">state</span><span style="color: #000000">, </span><span style="color: #001080">action</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> ({ ...</span><span style="color: #001080">state</span><span style="color: #000000">, ...</span><span style="color: #001080">action</span><span style="color: #000000">.</span><span style="color: #001080">payload</span><span style="color: #000000"> }),</span>
+<span style="color: #000000">  },</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">ActionTypes</span><span style="color: #000000">.</span><span style="color: #001080">Foo</span><span style="color: #000000">); </span><span style="color: #008000">// --&gt; &#039;products/Foo&#039;</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">ActionTypes</span><span style="color: #000000">.</span><span style="color: #001080">Bar</span><span style="color: #000000">); </span><span style="color: #008000">// --&gt; undefined</span>
+</code></pre>
+				<p>You can also add your own action creators; types will be created for those as well.</p>
+				<pre><code class="language-javascript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">ReduxModel</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@brendanatme/redux-model&quot;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">productModel</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">ReduxModel</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;products&quot;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">  </span><span style="color: #001080">reducers:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #795E26">Foo</span><span style="color: #001080">:</span><span style="color: #000000"> (</span><span style="color: #001080">state</span><span style="color: #000000">, </span><span style="color: #001080">action</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> ({ ...</span><span style="color: #001080">state</span><span style="color: #000000">, ...</span><span style="color: #001080">action</span><span style="color: #000000">.</span><span style="color: #001080">payload</span><span style="color: #000000"> }),</span>
+<span style="color: #000000">  },</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #795E26">addAction</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Bar&quot;</span><span style="color: #000000">, </span><span style="color: #0000FF">async</span><span style="color: #000000"> (</span><span style="color: #001080">dispatch</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #795E26">dispatch</span><span style="color: #000000">({ </span><span style="color: #001080">type:</span><span style="color: #000000"> </span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">ActionTypes</span><span style="color: #000000">.</span><span style="color: #001080">Foo</span><span style="color: #000000">, </span><span style="color: #001080">payload:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;baz&quot;</span><span style="color: #000000"> });</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">ActionTypes</span><span style="color: #000000">.</span><span style="color: #001080">Foo</span><span style="color: #000000">); </span><span style="color: #008000">// --&gt; &#039;products/Foo&#039;</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">ActionTypes</span><span style="color: #000000">.</span><span style="color: #001080">Bar</span><span style="color: #000000">); </span><span style="color: #008000">// --&gt; &#039;products/Bar&#039;</span>
+</code></pre>
+				<p>Next, we&#39;ll talk about the out-of-the-box actions redux-model provides,
+				and the default, opinionated way, it handles state.</p>
+				<a href="#opinionated-state-handling" id="opinionated-state-handling" style="color: inherit; text-decoration: none;">
+					<h3>Opinionated state handling</h3>
+				</a>
+				<p>Redux-model provides a number of actions to make commonplace tasks like fetching data and selecting items easy, consistent, and robust. Take fetching a resource, for example:</p>
+				<pre><code class="language-javascript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">ReduxModel</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@brendanatme/redux-model&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #0000FF">*</span><span style="color: #000000"> </span><span style="color: #AF00DB">as</span><span style="color: #000000"> </span><span style="color: #001080">api</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;../my-api&quot;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">productModel</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">ReduxModel</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;products&quot;</span><span style="color: #000000">);</span>
+
+<span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #795E26">addAction</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;FetchById&quot;</span><span style="color: #000000">, (</span><span style="color: #001080">id</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #0000FF">async</span><span style="color: #000000"> (</span><span style="color: #001080">dispatch</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #008000">// initiate the BeginFetch() action</span>
+<span style="color: #000000">  </span><span style="color: #008000">// this sets our model&#039;s network state as such:</span>
+<span style="color: #000000">  </span><span style="color: #008000">// state.network = { failed: false, fetched: false, fetching: true }</span>
+<span style="color: #000000">  </span><span style="color: #795E26">dispatch</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">actions</span><span style="color: #000000">.</span><span style="color: #795E26">BeginFetch</span><span style="color: #000000">());</span>
+
+<span style="color: #000000">  </span><span style="color: #AF00DB">try</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">item</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">api</span><span style="color: #000000">.</span><span style="color: #795E26">get</span><span style="color: #000000">(</span><span style="color: #A31515">`/products/</span><span style="color: #0000FF">${</span><span style="color: #001080">id</span><span style="color: #0000FF">}</span><span style="color: #A31515">`</span><span style="color: #000000">);</span>
+
+<span style="color: #000000">    </span><span style="color: #008000">// when we successfully receive a response,</span>
+<span style="color: #000000">    </span><span style="color: #008000">// we can initiate the FetchSuccess() action</span>
+<span style="color: #000000">    </span><span style="color: #008000">// to a) update our network state: state.network = { failed: false, fetched: true, fetching: false }</span>
+<span style="color: #000000">    </span><span style="color: #008000">// and b) update our data state, using the &#039;item&#039; key for a single resource or the &#039;items&#039; key for an array</span>
+<span style="color: #000000">    </span><span style="color: #795E26">dispatch</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">actions</span><span style="color: #000000">.</span><span style="color: #795E26">FetchSuccess</span><span style="color: #000000">({ </span><span style="color: #001080">item</span><span style="color: #000000"> }));</span>
+<span style="color: #000000">  } </span><span style="color: #AF00DB">catch</span><span style="color: #000000"> (</span><span style="color: #001080">e</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// if our request fails,</span>
+<span style="color: #000000">    </span><span style="color: #008000">// we can use the FetchFailure() built-in action creator</span>
+<span style="color: #000000">    </span><span style="color: #008000">// to update our network state to:</span>
+<span style="color: #000000">    </span><span style="color: #008000">// state.network = { failed: true, fetched: false, fetching: false }</span>
+<span style="color: #000000">    </span><span style="color: #795E26">dispatch</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">actions</span><span style="color: #000000">.</span><span style="color: #795E26">FetchFailure</span><span style="color: #000000">());</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #008000">// we now have access to the action type as well as the action creator:</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">ActionTypes</span><span style="color: #000000">.</span><span style="color: #001080">FetchById</span><span style="color: #000000">); </span><span style="color: #008000">// --&gt; &#039;products/FetchById&#039;</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">actions</span><span style="color: #000000">.</span><span style="color: #001080">FetchById</span><span style="color: #000000">); </span><span style="color: #008000">// --&gt; function</span>
+
+<span style="color: #008000">// usage:</span>
+<span style="color: #795E26">dispatch</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">actions</span><span style="color: #000000">.</span><span style="color: #795E26">FetchById</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;f49wjto&quot;</span><span style="color: #000000">));</span>
+</code></pre>
+				<a href="#setting-model-state" id="setting-model-state" style="color: inherit; text-decoration: none;">
+					<h3>Setting Model State</h3>
+				</a>
+				<p>The best way to put data into your model state is by using the <code>FetchSuccess</code> method. This is because redux-model assumes you&#39;re loading your data from somewhere else, and so the <code>FetchSuccess</code> action will also automatically update your network status. The <code>FetchSuccess</code> method accepts an object for an argument with a key of <code>item</code>, or <code>items</code>, or both:</p>
+				<pre><code class="language-javascript"><span style="color: #008000">// ...</span>
+
+<span style="color: #795E26">dispatch</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">actions</span><span style="color: #000000">.</span><span style="color: #795E26">FetchSuccess</span><span style="color: #000000">({</span>
+
+<span style="color: #000000">  </span><span style="color: #008000">// for a singular resource</span>
+<span style="color: #000000">  </span><span style="color: #001080">item:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">foo:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bar&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  },</span>
+
+<span style="color: #000000">  </span><span style="color: #008000">// for an array of items</span>
+<span style="color: #000000">  </span><span style="color: #001080">items:</span><span style="color: #000000"> [</span>
+<span style="color: #000000">    { </span><span style="color: #001080">id:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;f5soghl24&#039;</span><span style="color: #000000">, </span><span style="color: #001080">name:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;Product A&#039;</span><span style="color: #000000"> },</span>
+<span style="color: #000000">    { </span><span style="color: #001080">id:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;f5soghl25&#039;</span><span style="color: #000000">, </span><span style="color: #001080">name:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;Product B&#039;</span><span style="color: #000000"> },</span>
+<span style="color: #000000">  ],</span>
+
+<span style="color: #000000">});</span>
+
+</code></pre>
+				<p>Setting your data this way will give you easy access to it elsewhere with redux-model&#39;s built-in selectors, and will also give you added built-in functionality such as easily selecting an item from your array:</p>
+				<pre><code class="language-javascript"><span style="color: #008000">// get all items</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">items</span><span style="color: #000000"> = </span><span style="color: #795E26">useSelector</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">selectors</span><span style="color: #000000">.</span><span style="color: #001080">items</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// ...</span>
+
+<span style="color: #008000">// set the selectedItem (using an id from objects within the &#039;items&#039; array)</span>
+<span style="color: #795E26">dispatch</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">actions</span><span style="color: #000000">.</span><span style="color: #795E26">SelectItem</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;f5soghl25&quot;</span><span style="color: #000000">));</span>
+
+<span style="color: #008000">// ...</span>
+
+<span style="color: #008000">// access the &#039;selectedItem&#039;</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">selectedItem</span><span style="color: #000000"> = </span><span style="color: #795E26">useSelector</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">selectors</span><span style="color: #000000">.</span><span style="color: #001080">selectedItem</span><span style="color: #000000">);</span>
+</code></pre>
+				<a href="#escape-hatch" id="escape-hatch" style="color: inherit; text-decoration: none;">
+					<h3>Escape Hatch</h3>
+				</a>
+				<p>If you can&#39;t follow the convention, or just plain don&#39;t want to, you can use the <code>Update()</code> action creator as an escape hatch to set your state however you want:</p>
+				<pre><code class="language-javascript"><span style="color: #008000">// ...</span>
+
+<span style="color: #008000">// set a custom property</span>
+<span style="color: #795E26">dispatch</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">actions</span><span style="color: #000000">.</span><span style="color: #795E26">Update</span><span style="color: #000000">({ </span><span style="color: #001080">foo:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;bar&quot;</span><span style="color: #000000"> }));</span>
+
+<span style="color: #008000">// ...</span>
+
+<span style="color: #008000">// get the model&#039;s entire state</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> { </span><span style="color: #0070C1">foo</span><span style="color: #000000"> } = </span><span style="color: #795E26">useSelector</span><span style="color: #000000">(</span><span style="color: #001080">productModel</span><span style="color: #000000">.</span><span style="color: #001080">selectors</span><span style="color: #000000">.</span><span style="color: #001080">state</span><span style="color: #000000">);</span>
 </code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/examples_basic.html">examples/basic</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/examples_basic_api.html">examples/basic/api</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/examples_basic_stub.html">examples/basic/stub</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/index.html">index</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/lib.html">lib</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/lib_configure_store.html">lib/configure-<wbr>store</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/lib_redux_model.html">lib/redux.model</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/lib_redux_model_actions.html">lib/redux.model.actions</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/lib_redux_model_connectors.html">lib/redux.model.connectors</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/lib_redux_model_selectors.html">lib/redux.model.selectors</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/lib_types.html">lib/types</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/reduxmodel.html" class="tsd-kind-icon">Redux<wbr>Model</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/reduxmodelactiontypes.html" class="tsd-kind-icon">Redux<wbr>Model<wbr>Action<wbr>Types</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/reduxmodelactions.html" class="tsd-kind-icon">Redux<wbr>Model<wbr>Actions</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/reduxmodelconnectors.html" class="tsd-kind-icon">Redux<wbr>Model<wbr>Connectors</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/reduxmodelselectors.html" class="tsd-kind-icon">Redux<wbr>Model<wbr>Selectors</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/stub.html" class="tsd-kind-icon">Stub</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#product" class="tsd-kind-icon">Product</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#reduxmodelactioncreator" class="tsd-kind-icon">Redux<wbr>Model<wbr>Action<wbr>Creator</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#reduxmodelcomponent" class="tsd-kind-icon">Redux<wbr>Model<wbr>Component</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#reduxmodeloptions" class="tsd-kind-icon">Redux<wbr>Model<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#reduxmodelreducers" class="tsd-kind-icon">Redux<wbr>Model<wbr>Reducers</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#reduxmodelstate" class="tsd-kind-icon">Redux<wbr>Model<wbr>State</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#reduxmodelstorecreator" class="tsd-kind-icon">Redux<wbr>Model<wbr>Store<wbr>Creator</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#reduxmodelthunk" class="tsd-kind-icon">Redux<wbr>Model<wbr>Thunk</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#productmodel" class="tsd-kind-icon">product<wbr>Model</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#configurestore" class="tsd-kind-icon">configure<wbr>Store</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#generateactiontypes" class="tsd-kind-icon">generate<wbr>Action<wbr>Types</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#generateactions" class="tsd-kind-icon">generate<wbr>Actions</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#generateconnectors" class="tsd-kind-icon">generate<wbr>Connectors</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#generateselectors" class="tsd-kind-icon">generate<wbr>Selectors</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#get" class="tsd-kind-icon">get</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#stateconnector" class="tsd-kind-icon">state<wbr>Connector</a>
-					</li>
-					<li class=" tsd-kind-object-literal">
-						<a href="globals.html#data" class="tsd-kind-icon">data</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -220,16 +335,21 @@ productModel.addAction(<span class="hljs-string">&#x27;FetchById&#x27;</span>, <
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 			</ul>
 		</div>
 	</div>
