@@ -22,6 +22,7 @@ const actionTypeTests = [
   'DeselectItem',
   'FetchFailure',
   'FetchSuccess',
+  'ResetNetwork',
   'SelectItem',
   'Update',
 ];
@@ -41,6 +42,7 @@ const actionTests = [
   { key: 'DeselectItem', args: [] },
   { key: 'FetchFailure', args: [] },
   { key: 'FetchSuccess', args: [{ item: { foo: 'bar' } }], payload: { item: { foo: 'bar' } } },
+  { key: 'ResetNetwork', args: [] },
   { key: 'SelectItem', args: ['1'], payload: '1' },
   { key: 'Update', args: [{ fetching: true }], payload: { fetching: true } },
 ];

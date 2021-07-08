@@ -17,6 +17,7 @@ export const generateActionTypes = (key: string): ReduxModelActionTypes => ({
   DeselectItem: `${key}/DeselectItem`,
   FetchFailure: `${key}/FetchFailure`,
   FetchSuccess: `${key}/FetchSuccess`,
+  ResetNetwork: `${key}/ResetNetwork`,
   SelectItem: `${key}/SelectItem`,
   Update: `${key}/Update`,
 });
@@ -32,6 +33,7 @@ export const generateActions = <T>(actionTypes: ReduxModelActionTypes): ReduxMod
     payload,
     type: actionTypes.FetchSuccess,
   }),
+  ResetNetwork: () => ({ type: actionTypes.ResetNetwork }),
   SelectItem: (id: string) => ({ type: actionTypes.SelectItem, payload: id }),
   Update: (payload: Partial<ReduxModelState<T>>) => ({ type: actionTypes.Update, payload }),
 });

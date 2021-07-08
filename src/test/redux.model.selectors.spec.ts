@@ -13,7 +13,7 @@ const ITEMS: { id: string; }[] = [
 const SLICE = {
   item: ITEM,
   items: ITEMS,
-  networkState: ReduxModelNetworkState.idle,
+  network: ReduxModelNetworkState.idle,
   selectedId: '',
 };
 const MAPPED = {

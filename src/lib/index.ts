@@ -5,7 +5,6 @@ export {
   ReduxModelActions,
   ReduxModelActionTypes,
   ReduxModelComponent,
-  ReduxModelConnectors,
   ReduxModelNetworkState,
   ReduxModelOptions,
   ReduxModelReducers,

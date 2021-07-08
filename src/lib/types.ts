@@ -13,7 +13,7 @@ export enum ReduxModelNetworkState {
 export type ReduxModelState<T> = {
   item?: Partial<T>;
   items?: Partial<T>[],
-  networkState: ReduxModelNetworkState;
+  network: ReduxModelNetworkState;
   selectedId: string;
 }
 
@@ -36,6 +36,7 @@ export interface ReduxModelActions<T> {
   DeselectItem: () => AnyAction;
   FetchFailure: () => AnyAction;
   FetchSuccess: (payload?: { item?: Partial<T>; items?: Partial<T>[]; }) => AnyAction;
+  ResetNetwork: () => AnyAction;
   SelectItem: (id: string) => AnyAction;
   Update: (payload: Partial<ReduxModelState<T>>) => AnyAction;
   [k: string]: ReduxModelActionCreator | ReduxModelThunk;
@@ -58,6 +59,7 @@ export interface ReduxModelActionTypes {
   DeselectItem: string;
   FetchFailure: string;
   FetchSuccess: string;
+  ResetNetwork: string;
   SelectItem: string;
   Update: string;
   [k: string]: string;
@@ -65,11 +67,5 @@ export interface ReduxModelActionTypes {
 
 // @todo properly type
 export type ReduxModelComponent = (props: any) => any;
-
-export interface ReduxModelConnectors {
-  withActions: (Composed: ReduxModelComponent) => { WrappedComponent: ReduxModelComponent };
-  withAll: (Composed: ReduxModelComponent) => { WrappedComponent: ReduxModelComponent };
-  withState: (Composed: ReduxModelComponent) => { WrappedComponent: ReduxModelComponent };
-}
 
 export type ReduxModelStoreCreator<S, A extends Action = AnyAction> = (initialState?: PreloadedState<S>) => Store<S, A>;

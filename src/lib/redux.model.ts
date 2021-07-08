@@ -32,13 +32,11 @@
 import { AnyAction } from 'redux';
 
 import { generateActions, generateActionTypes } from './redux.model.actions';
-import { generateConnectors } from './redux.model.connectors';
 import { generateSelectors } from './redux.model.selectors';
 import {
   ReduxModelActionCreator,
   ReduxModelActions,
   ReduxModelActionTypes,
-  ReduxModelConnectors,
   ReduxModelNetworkState,
   ReduxModelOptions,
   ReduxModelReducers,
@@ -53,9 +51,8 @@ export class ReduxModel<T> {
 
   actions: ReduxModelActions<T>;
   ActionTypes: ReduxModelActionTypes;
-  connectors: ReduxModelConnectors;
   initialState: ReduxModelState<T> = {
-    networkState: ReduxModelNetworkState.idle,
+    network: ReduxModelNetworkState.idle,
     item: {},
     items: [],
     selectedId: '',
@@ -71,7 +68,6 @@ export class ReduxModel<T> {
     this.ActionTypes = generateActionTypes(this.key);
     this.actions = generateActions<T>(this.ActionTypes);
     this.selectors = generateSelectors<T>(this.key, this.itemIdProp);
-    this.connectors = generateConnectors<T>(this.key, this.actions, this.selectors);
 
     this.itemIdProp = options && options.itemIdProp || this.itemIdProp;
 
@@ -115,14 +111,14 @@ export class ReduxModel<T> {
       case this.ActionTypes.BeginFetch: {
         return {
           ...state,
-          networkState: ReduxModelNetworkState.fetching,
+          network: ReduxModelNetworkState.fetching,
         };
       }
       case this.ActionTypes.Clear: {
         return {
           item: {},
           items: [],
-          networkState: ReduxModelNetworkState.idle,
+          network: ReduxModelNetworkState.idle,
           selectedId: '',
         };
       }
@@ -147,7 +143,7 @@ export class ReduxModel<T> {
       case this.ActionTypes.FetchFailure: {
         return {
           ...state,
-          networkState: ReduxModelNetworkState.failed,
+          network: ReduxModelNetworkState.failed,
         };
       }
       case this.ActionTypes.FetchSuccess: {
@@ -158,7 +154,13 @@ export class ReduxModel<T> {
             ...action.payload.item,
           },
           items: action.payload.items || state.items,
-          networkState: ReduxModelNetworkState.fetched,
+          network: ReduxModelNetworkState.fetched,
+        };
+      }
+      case this.ActionTypes.ResetNetwork: {
+        return {
+          ...state,
+          network: ReduxModelNetworkState.idle,
         };
       }
       case this.ActionTypes.SelectItem: {
