@@ -39,6 +39,7 @@ import {
   ReduxModelActions,
   ReduxModelActionTypes,
   ReduxModelConnectors,
+  ReduxModelNetworkState,
   ReduxModelOptions,
   ReduxModelReducers,
   ReduxModelSelectors,
@@ -54,11 +55,7 @@ export class ReduxModel<T> {
   ActionTypes: ReduxModelActionTypes;
   connectors: ReduxModelConnectors;
   initialState: ReduxModelState<T> = {
-    network: {
-      failed: false,
-      fetched: false,
-      fetching: false,
-    },
+    networkState: ReduxModelNetworkState.idle,
     item: {},
     items: [],
     selectedId: '',
@@ -118,22 +115,14 @@ export class ReduxModel<T> {
       case this.ActionTypes.BeginFetch: {
         return {
           ...state,
-          network: {
-            failed: false,
-            fetched: false,
-            fetching: true,
-          },
+          networkState: ReduxModelNetworkState.fetching,
         };
       }
       case this.ActionTypes.Clear: {
         return {
           item: {},
           items: [],
-          network: {
-            failed: false,
-            fetched: false,
-            fetching: false,
-          },
+          networkState: ReduxModelNetworkState.idle,
           selectedId: '',
         };
       }
@@ -158,11 +147,7 @@ export class ReduxModel<T> {
       case this.ActionTypes.FetchFailure: {
         return {
           ...state,
-          network: {
-            failed: true,
-            fetched: false,
-            fetching: false,
-          },
+          networkState: ReduxModelNetworkState.failed,
         };
       }
       case this.ActionTypes.FetchSuccess: {
@@ -173,11 +158,7 @@ export class ReduxModel<T> {
             ...action.payload.item,
           },
           items: action.payload.items || state.items,
-          network: {
-            failed: false,
-            fetched: true,
-            fetching: false,
-          },
+          networkState: ReduxModelNetworkState.fetched,
         };
       }
       case this.ActionTypes.SelectItem: {

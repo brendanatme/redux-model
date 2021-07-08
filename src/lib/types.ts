@@ -3,14 +3,17 @@ import { Action, AnyAction, PreloadedState, Store } from 'redux';
 export type ReduxModelThunk = <S, A extends Action = AnyAction>(...args: any[]) => (dispatch: any, store?: Store<S, A>) => Promise<any>;
 export type ReduxModelActionCreator = (...args: any[]) => AnyAction;
 
+export enum ReduxModelNetworkState {
+  failed = 'failed',
+  fetched = 'fetched',
+  fetching = 'fetching',
+  idle = 'idle',
+}
+
 export type ReduxModelState<T> = {
   item?: Partial<T>;
   items?: Partial<T>[],
-  network: {
-    failed: boolean;
-    fetched: boolean;
-    fetching: boolean;
-  };
+  networkState: ReduxModelNetworkState;
   selectedId: string;
 }
 
@@ -42,7 +45,7 @@ export interface ReduxModelSelectors<T> {
   item: (state: any) => Partial<T>;
   items: (state: any) => Partial<T>[];
   itemMap: (state: any) => { [k: string]: Partial<T>; };
-  network: (state: any) => { failed: boolean; fetched: boolean; fetching: boolean; };
+  network: (state: any) => ReduxModelNetworkState;
   selectedItem: (state: any) => Partial<T> | undefined;
   state: (state: any) => ReduxModelState<T>;
 }

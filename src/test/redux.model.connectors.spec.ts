@@ -1,5 +1,6 @@
 import test from 'ava';
 
+import { ReduxModelNetworkState } from '../lib';
 import { generateActions, generateActionTypes } from '../lib/redux.model.actions';
 import { generateConnectors, stateConnector } from '../lib/redux.model.connectors';
 import { generateSelectors } from '../lib/redux.model.selectors';
@@ -13,11 +14,7 @@ const ITEMS: {}[] = [{}, {}];
 const SLICE = {
   item: ITEM,
   items: ITEMS,
-  network: {
-    failed: false,
-    fetched: false,
-    fetching: false,
-  },
+  networkState: ReduxModelNetworkState.idle,
   selectedId: '',
 };
 const GLOBAL_STATE = { [KEY]: SLICE };

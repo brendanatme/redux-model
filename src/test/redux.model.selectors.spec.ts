@@ -1,5 +1,6 @@
 import test from 'ava';
 
+import { ReduxModelNetworkState } from '../lib';
 import { generateSelectors } from '../lib/redux.model.selectors';
 
 const KEY = 'test';
@@ -12,11 +13,7 @@ const ITEMS: { id: string; }[] = [
 const SLICE = {
   item: ITEM,
   items: ITEMS,
-  network: {
-    failed: false,
-    fetched: false,
-    fetching: false,
-  },
+  networkState: ReduxModelNetworkState.idle,
   selectedId: '',
 };
 const MAPPED = {

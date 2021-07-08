@@ -24,7 +24,9 @@
     "sandboxed",
     "transpiled",
     "typedoc",
-    "untracked"
+    "untracked",
+    "wjto",
+    "soghl"
   ],
   "flagWords": [],
   "ignorePaths": [
