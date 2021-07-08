@@ -74,13 +74,13 @@ export default ({ id }) => {
 
   useEffect(() => {
     dispatch(productModel.actions.FetchById(id));
-  }, [product]);
+  }, [id]);
 
-  if (network.fetching) {
+  if (network === "fetching") {
     return <Loader />;
   }
 
-  if (network.failed) {
+  if (network === "failed") {
     return <Error />;
   }
 
